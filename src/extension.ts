@@ -1,6 +1,3 @@
-/*---------------------------------------------------------
- * Copyright (C) Microsoft Corporation. All rights reserved.
- *--------------------------------------------------------*/
 
 import * as vscode from 'vscode';
 import axios from 'axios';
@@ -8,10 +5,6 @@ import * as phpparser from 'php-parser';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	// response = await fetch('https://raw.githubusercontent.com/wikimedia/mediawiki/master/includes/DefaultSettings.php');
-	// data = await response.body;
-	// console.log(data);	
-	//Create output channel
 	let orange = vscode.window.createOutputChannel("Orange");
 
 	// initialize a new parser instance
