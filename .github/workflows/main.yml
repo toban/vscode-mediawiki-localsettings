@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Compile
-        run: npm run compile
+        run: npm ci && npm run compile
         
       # Runs a single command using the runners shell
       - name: Lint
