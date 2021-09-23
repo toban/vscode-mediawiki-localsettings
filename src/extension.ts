@@ -166,6 +166,9 @@ export function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(provider1);
 
 	};
+
+	// wikibase
+	// https://github.com/wikimedia/Wikibase/blob/master/repo/config/Wikibase.default.php
 	const readFromSource = function () {
 		//Write to output.
 		axios.get(
