@@ -23,6 +23,7 @@
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint . --ext .ts,.tsx",
+		"fix": "eslint . --ext .ts,.tsx --fix",
 		"watch": "tsc -watch -p ./"
 	},
 	"devDependencies": {
