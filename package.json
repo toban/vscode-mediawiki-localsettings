@@ -2,7 +2,7 @@
 	"name": "MediaWiki-Localsettings",
 	"displayName": "LocalSettings.php completions",
 	"version": "0.0.1",
-	"publisher": "toban",
+	"publisher": "tobian",
 	"private": true,
 	"license": "BSD3",
 	"repository": {
