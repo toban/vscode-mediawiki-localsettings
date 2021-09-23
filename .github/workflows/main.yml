@@ -32,3 +32,12 @@ jobs:
       # Runs a single command using the runners shell
       - name: Lint
         run: npm run lint
+
+      - run: |
+          npm install vsce -g
+          vsce package
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: MediaWiki-Localsettings-*
