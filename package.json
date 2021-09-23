@@ -2,7 +2,7 @@
 	"name": "MediaWiki-Localsettings",
 	"displayName": "LocalSettings.php completions",
 	"version": "0.0.1",
-	"publisher": "tobian",
+	"publisher": "toban",
 	"private": true,
 	"license": "BSD3",
 	"repository": {
@@ -37,7 +37,6 @@
 	},
 	"dependencies": {
 		"axios": "^0.21.4",
-		"node-fetch": "^3.0.0",
 		"php-parser": "^3.0.3"
 	}
 }
