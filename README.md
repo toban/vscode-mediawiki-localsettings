@@ -1,6 +1,8 @@
-# vscode-mediawiki-localsettings
+# MediaWiki LocalSettings.php Completions
 
-Idea to add LocalSettings.php suggestions into vscode
+Pulls the latest DefaultSettings.php from master and gets the default (if understood!) and comment.
+
+Pull requests welcome!
 
 ![Example](demo.gif)
 
