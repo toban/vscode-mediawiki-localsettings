@@ -7,7 +7,7 @@ import * as fs from 'fs';
 export function activate(context: vscode.ExtensionContext) {
 
 
-	const orange = vscode.window.createOutputChannel("Orange");
+	const log = vscode.window.createOutputChannel("LocalSettings");
 
 	// initialize a new parser instance
 	const parser = new phpparser.Engine(
@@ -34,14 +34,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 	);
 
-	orange.appendLine("Reading cache!");
+	log.appendLine("Reading cache!");
 
 	fs.readFile('DefaultSettings.php', function (err, data) {
 		if (err) {
-			orange.appendLine("No cache to read");
+			log.appendLine("No cache to read");
 			return readFromSource();
 		}
-		orange.appendLine("Using cache");
+		log.appendLine("Using cache");
 		return readData('' + data);
 	});
 
@@ -49,13 +49,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 		fs.writeFile('DefaultSettings.php', data, function (err) {
 			if (err) {
-				return orange.appendLine("failed to write file!");
+				return log.appendLine("failed to write file!");
 			}
-			orange.appendLine("File created!");
+			log.appendLine("File created!");
 		});
 
 		const defaultSettings = parser.parseCode(data, 'DefaultSettings.php');
-		orange.appendLine(defaultSettings.children.length.toString());
+		log.appendLine(defaultSettings.children.length.toString());
 		const variables: string[] = [];
 		const comments: string[] = [];
 		const values: string[] = [];
@@ -74,7 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
 						}
 
 						if (!what['name']) {
-							orange.appendLine("missing variable name: " + JSON.stringify(json['expression']['left']));
+							log.appendLine("missing variable name: " + JSON.stringify(json['expression']['left']));
 							continue;
 						}
 
@@ -120,7 +120,7 @@ export function activate(context: vscode.ExtensionContext) {
 									leadingComment += comment;
 								}
 							} catch (e) {
-								orange.appendLine("failed parsing comment: " + JSON.stringify(json));
+								log.appendLine("failed parsing comment: " + JSON.stringify(json));
 							}
 						}
 					}
@@ -134,7 +134,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		}
 
-		orange.appendLine("added " + variables.length + " variables.");
+		log.appendLine("added " + variables.length + " variables.");
 
 		const statements: vscode.CompletionItem[] = [];
 
