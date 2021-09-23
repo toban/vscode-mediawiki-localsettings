@@ -1,6 +1,17 @@
 {
 	"name": "MediaWiki-Localsettings",
-	"displayName": "LocalSettings.php completions",
+	"displayName": "MediaWiki Configuration completions",
+	"keywords": [
+		"MediaWiki",
+		"LocalSettings.php",
+		"LocalSettings Configuration",
+		"Apache Web server",
+		"MariaDB",
+		"MySQL",
+		"LAMP",
+		"Configuration Completions"
+
+	],
 	"version": "0.0.1",
 	"publisher": "toban",
 	"private": true,
