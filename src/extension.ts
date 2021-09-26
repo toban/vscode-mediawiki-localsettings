@@ -8,6 +8,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 	const log = vscode.window.createOutputChannel("LocalSettings");
+	const config = vscode.workspace.getConfiguration('localsettings');
+
+	const configBranch = config.get<string>("branch");
+	const configAddVariableComments = config.get<string>("addVariableComments");
+
+	log.appendLine("Branch: " + configBranch);
+	log.appendLine("Add comments: " + configAddVariableComments);
 
 	// initialize a new parser instance
 	const parser = new phpparser.Engine(
@@ -34,9 +41,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	);
 
-	log.appendLine("Reading cache!");
+	const filename = 'DefaultSettings.' + configBranch + '.php';
+	log.appendLine("Reading cache " + filename );
 
-	fs.readFile('DefaultSettings.php', function (err, data) {
+	fs.readFile(filename, function (err, data) {
 		if (err) {
 			log.appendLine("No cache to read");
 			return readFromSource();
@@ -47,11 +55,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const readData = function (data: string) {
 
-		fs.writeFile('DefaultSettings.php', data, function (err) {
+		fs.writeFile(filename, data, function (err) {
 			if (err) {
 				return log.appendLine("failed to write file!");
 			}
-			log.appendLine("File created!");
+			log.appendLine("Cache file created " + filename);
 		});
 
 		const defaultSettings = parser.parseCode(data, 'DefaultSettings.php');
@@ -126,12 +134,8 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 					comments.push(leadingComment);
 					values.push(value);
-
 				}
-
 			}
-
-
 		}
 
 		log.appendLine("added " + variables.length + " variables.");
@@ -139,11 +143,17 @@ export function activate(context: vscode.ExtensionContext) {
 		const statements: vscode.CompletionItem[] = [];
 
 		for (let i = 0; i < variables.length; i++) {
+			let commentFinal = '';
 			const completionSuggestion = "$" + variables[i];
+			
+			if( configAddVariableComments ) {
+				// eslint-disable-next-line no-useless-escape
+				const manualLink = "// https://www.mediawiki.org/wiki/Manual:\\\$" + variables[i];
+				commentFinal = comments[i] + "\n" + manualLink;
+			}
+			
 			// eslint-disable-next-line no-useless-escape
-			const manualLink = "// https://www.mediawiki.org/wiki/Manual:\\\$" + variables[i];
-			// eslint-disable-next-line no-useless-escape
-			const insertText = comments[i] + "\n" + manualLink + "\n\\\$" + variables[i] + " = " + values[i] + ';';
+			const insertText = commentFinal+ "\n\\\$" + variables[i] + " = " + values[i] + ';';
 
 			const snippetCompletion = new vscode.CompletionItem(completionSuggestion);
 			snippetCompletion.insertText = new vscode.SnippetString(insertText);
@@ -172,7 +182,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const readFromSource = function () {
 		//Write to output.
 		axios.get(
-			'https://raw.githubusercontent.com/wikimedia/mediawiki/master/includes/DefaultSettings.php',
+			'https://raw.githubusercontent.com/wikimedia/mediawiki/' + configBranch + '/includes/DefaultSettings.php',
 		).then((resp) => {
 			readData(resp.data);
 		});
