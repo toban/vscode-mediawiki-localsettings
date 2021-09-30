@@ -41,7 +41,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 	);
 
-	const filename = 'DefaultSettings.' + configBranch + '.php';
+	const dir: string = context.storagePath ?? '/tmp/vscode-localSettings/';
+
+	if (!fs.existsSync(dir) ){
+    	fs.mkdirSync(dir);
+	}
+	
+	const filename = dir + '/' + 'DefaultSettings.' + configBranch + '.php';
 	log.appendLine("Reading cache " + filename );
 
 	fs.readFile(filename, function (err, data) {

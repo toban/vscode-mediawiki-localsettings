@@ -8,6 +8,10 @@ Pull requests welcome!
 
 ## Changelog
 
+0.0.22
+
+- Fix bug where the file was not written in extension cache dir
+
 0.0.21
 
 - New settings section under Extensions/LocalSettings.php
